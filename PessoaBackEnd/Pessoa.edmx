@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PessoaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="nr_cpf" />
+          </Key>
+          <Property Name="nr_cpf" Type="bigint" Nullable="false" />
+          <Property Name="ds_nome" Type="varchar" MaxLength="255" />
+          <Property Name="ds_sobrenome" Type="varchar" MaxLength="255" />
+          <Property Name="ds_nacionalidade" Type="varchar" MaxLength="255" />
+          <Property Name="nr_cep" Type="varchar" MaxLength="15" />
+          <Property Name="ds_estado" Type="varchar" MaxLength="120" />
+          <Property Name="ds_cidade" Type="varchar" MaxLength="255" />
+          <Property Name="ds_logradouro" Type="varchar" MaxLength="450" />
+          <Property Name="ds_email" Type="varchar" MaxLength="250" />
+          <Property Name="nr_telefone" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityContainer Name="PessoaModelStoreContainer">
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PessoaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="nr_cpf" />
+          </Key>
+          <Property Name="nr_cpf" Type="Int64" Nullable="false" />
+          <Property Name="ds_nome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ds_sobrenome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ds_nacionalidade" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nr_cep" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ds_estado" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="ds_cidade" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ds_logradouro" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
+          <Property Name="ds_email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="nr_telefone" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="PessoaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Pessoas" EntityType="Self.Pessoa" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PessoaModelStoreContainer" CdmEntityContainer="PessoaEntities">
+          <EntitySetMapping Name="Pessoas">
+            <EntityTypeMapping TypeName="PessoaModel.Pessoa">
+              <MappingFragment StoreEntitySet="Pessoa">
+                <ScalarProperty Name="nr_cpf" ColumnName="nr_cpf" />
+                <ScalarProperty Name="ds_nome" ColumnName="ds_nome" />
+                <ScalarProperty Name="ds_sobrenome" ColumnName="ds_sobrenome" />
+                <ScalarProperty Name="ds_nacionalidade" ColumnName="ds_nacionalidade" />
+                <ScalarProperty Name="nr_cep" ColumnName="nr_cep" />
+                <ScalarProperty Name="ds_estado" ColumnName="ds_estado" />
+                <ScalarProperty Name="ds_cidade" ColumnName="ds_cidade" />
+                <ScalarProperty Name="ds_logradouro" ColumnName="ds_logradouro" />
+                <ScalarProperty Name="ds_email" ColumnName="ds_email" />
+                <ScalarProperty Name="nr_telefone" ColumnName="nr_telefone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

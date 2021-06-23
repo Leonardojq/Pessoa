@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listar Pessoas</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.css">
+    <link rel="stylesheet" href="../CSS/menuAplicativoPessoa.css">
+    <link rel="stylesheet" href="../CSS/jquery.dataTables.min.css">
+    <script type="text/javascript" src="../Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../Scripts/listarPessoa.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Carrega os dados de lista de pessoas
+            var sJSON = servico_TB_LISTA_PESSOA();
+
+            //Cria a tabela vazia
+            dtListaPessoa = CriarDataTableListaPessoa();
+            
+            //Preenche a tabela com os dados do JSON
+            dtListaPessoa.clear().rows.add(sJSON).draw();
+
+            //Botão Alterar
+            $('#id_LISTA_PESSOA tbody').on('click', '.btnAlterar', function ()
+            {
+                var sLink = '/PessoaFrontEnd/AlterarPessoa.html';
+                
+                var data = dtListaPessoa.row($(this).parents('tr')).data();
+                var cpfPessoaAlterar = data.nr_cpf;
+                var nomePessoaAlterar = data.ds_nome;
+                var sobrenomePessoaAlterar = data.ds_sobrenome;
+                var nacionalidadePessoaAlterar = data.ds_nacionalidade;
+                var cepPessoaAlterar = data.nr_cep;
+                var estadoPessoaAlterar = data.ds_estado;
+                var cidadePessoaAlterar = data.ds_cidade;
+                var logradouroPessoaAlterar = data.ds_logradouro;
+                var emailPessoaAlterar = data.ds_email;
+                var telefonePessoaAlterar = data.nr_telefone;
+
+                sessionStorage.setItem("cpfPessoaAlterar", cpfPessoaAlterar);
+                sessionStorage.setItem("nomePessoaAlterar", nomePessoaAlterar);
+                sessionStorage.setItem("sobrenomePessoaAlterar", sobrenomePessoaAlterar);
+                sessionStorage.setItem("nacionalidadePessoaAlterar", nacionalidadePessoaAlterar);
+                sessionStorage.setItem("cepPessoaAlterar", cepPessoaAlterar);
+                sessionStorage.setItem("estadoPessoaAlterar", estadoPessoaAlterar);
+                sessionStorage.setItem("cidadePessoaAlterar", cidadePessoaAlterar);
+                sessionStorage.setItem("logradouroPessoaAlterar", logradouroPessoaAlterar);
+                sessionStorage.setItem("emailPessoaAlterar", emailPessoaAlterar);
+                sessionStorage.setItem("telefonePessoaAlterar", telefonePessoaAlterar);
+
+                window.location = sLink;
+            });
+
+            //Botão Incluir nova pessoa
+            $("#btnIncluirNovaPessoa").click(function ()
+            {
+                var sLink = '/IncluirPessoa.html';
+                window.location = sLink;
+            });
+
+            //Botão Excluir
+            $('#id_LISTA_PESSOA tbody').on('click', '.btnExcluir', function ()
+            {
+                var confirmacao = confirm("Confirma exclusão de registro?");
+
+                if (confirmacao == true) {
+                    var data = $('#id_LISTA_PESSOA').DataTable().rows($(this).parents('tr')).data();
+                    var tr = $(this).parents('tr');
+                    
+                    //Remove o registro da tabela e atualiza o datatable
+                    $('#id_LISTA_PESSOA').DataTable().row(tr).remove().draw();
+                
+                    var cpfPessoaExcluir = data[0].nr_cpf;
+                    servico_PESSOA_Excluir(cpfPessoaExcluir);
+
+                    //Carrega os novos dados de lista de pessoas
+                    var sJSON = servico_TB_LISTA_PESSOA();
+
+                    //Cria a tabela vazia
+                    dtListaPessoa = CriarDataTableListaPessoa();
+
+                    //Preenche a tabela com os dados do JSON
+                    dtListaPessoa.clear().rows.add(sJSON).draw();  
+                }                                                                                                        
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="Inicio.html">Inicio</a>
+        <a href="ConsultarPessoa.html">Consultar Pessoa</a>
+        <a href="IncluirPessoa.html">Incluir Pessoa</a>
+        <a class="active" href="#">Listar Pessoas</a>
+    </div>
+
+    <div style="padding-left:16px">
+        <br />
+        <br />
+        <h2>Lista de Pessoas</h2>
+        <br />
+    </div>
+
+    <div id="divListaPessoa">
+        <br />
+        <div class="col-xl-12">
+            <button type="button" id="btnIncluirNovaPessoa" class="btn btn-success">Incluir nova pessoa</button>
+        </div>
+        <br />
+        <table id="id_LISTA_PESSOA" class="display">
+            <thead>
+                <tr>
+                    <th>CPF</th>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Nacionalidade</th>
+                    <th>CEP</th>
+                    <th>Estado</th>
+                    <th>Cidade</th>
+                    <th>Logradouro</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

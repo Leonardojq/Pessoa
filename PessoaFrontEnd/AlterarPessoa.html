@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alterar Pessoa</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.css">
+    <link rel="stylesheet" href="../CSS/menuAplicativoPessoa.css">
+    <link rel="stylesheet" href="../CSS/formularioAplicativoPessoa.css">
+    <script type="text/javascript" src="../Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery.mask.js"></script>
+    <script type="text/javascript" src="../Scripts/alterarPessoa.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var sCpfPessoaAlterar = sessionStorage.getItem("cpfPessoaAlterar");
+            var sNomePessoaAlterar = sessionStorage.getItem("nomePessoaAlterar");
+            var sSobrenomePessoaAlterar = sessionStorage.getItem("sobrenomePessoaAlterar");
+            var sNacionalidadePessoaAlterar = sessionStorage.getItem("nacionalidadePessoaAlterar");
+            var sCepPessoaAlterar = sessionStorage.getItem("cepPessoaAlterar");
+            var sEstadoPessoaAlterar = sessionStorage.getItem("estadoPessoaAlterar");
+            var sCidadePessoaAlterar = sessionStorage.getItem("cidadePessoaAlterar");
+            var sLogradouroPessoaAlterar = sessionStorage.getItem("logradouroPessoaAlterar");
+            var sEmailPessoaAlterar = sessionStorage.getItem("emailPessoaAlterar");
+            var sTelefonePessoaAlterar = sessionStorage.getItem("telefonePessoaAlterar");
+
+            $('#cpf').val(sCpfPessoaAlterar);
+            $('#nome').val(sNomePessoaAlterar);
+            $('#sobrenome').val(sSobrenomePessoaAlterar);
+            $('#nacionalidade').val(sNacionalidadePessoaAlterar);
+            $('#cep').val(sCepPessoaAlterar);
+            $('#estado').val(sEstadoPessoaAlterar);
+            $('#cidade').val(sCidadePessoaAlterar);
+            $('#logradouro').val(sLogradouroPessoaAlterar);
+            $('#email').val(sEmailPessoaAlterar);
+            $('#telefone').val(sTelefonePessoaAlterar);
+
+            $("#cep").mask("00000-000");
+            $("#cpf").mask("000.000.000-00");
+
+            $("#btnVoltar").click(function () {
+                var sLink = '/PessoaFrontEnd/ListarPessoa.html';
+                window.location = sLink;
+            });
+
+            $("#btnSalvar").click(function () {
+                //Obtém dados de alteração da pessoa
+                var cpfPessoa = $('#cpf').val().toString().replace(/-/, '');
+                cpfPessoa = cpfPessoa.toString().replace(/\D/g, '');
+                var nomePessoa = $('#nome').val();
+                var sobrenomePessoa = $('#sobrenome').val();
+                var nacionalidadePessoa = $('#nacionalidade').val();
+                var cepPessoa = $('#cep').val();
+                var estadoPessoa = $('#estado').val();
+                var cidadePessoa = $('#cidade').val();
+                var logradouroPessoa = $('#logradouro').val();
+                var emailPessoa = $('#email').val();
+                var telefonePessoa = $('#telefone').val();
+
+                //Invoca o serviço de alteração de pessoa
+                var oJSON = servico_Alterar_PESSOA(cpfPessoa, nomePessoa, sobrenomePessoa, nacionalidadePessoa, cepPessoa, estadoPessoa, cidadePessoa, logradouroPessoa, emailPessoa, telefonePessoa);
+                
+                if (oJSON.Resultado == 'Sucesso') {
+                    var sMsg = "Pessoa alterada com sucesso.";
+                    document.getElementById('id_retorno_AlterarPessoa').innerHTML = sMsg;
+                    $("#id_retorno_AlterarPessoa").addClass('alert alert-success');
+                }
+                if (oJSON.Resultado == 'Fracasso') {
+                    var sMsg = "Pessoa não alterada. Pessoa não encontrada.";
+                    document.getElementById('id_retorno_AlterarPessoa').innerHTML = sMsg;
+                    $("#id_retorno_AlterarPessoa").addClass('alert alert-danger');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="Inicio.html">Inicio</a>
+        <a href="ConsultarPessoa.html">Consultar Pessoa</a>
+        <a href="IncluirPessoa.html">Incluir Pessoa</a>
+        <a href="ListarPessoa.html">Listar Pessoas</a>
+    </div>
+
+    <div style="padding-left:16px">
+        <br />
+        <br />
+        <h2>Alterar Pessoa</h2>
+        <br />
+        <p>Inserir dados da pessoa para alterar</p>
+        <br />
+    </div>
+
+    <div class="container">
+        <form id="frmAlterar">
+            <div class="row">
+                <div class="col">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="CPF.." readonly="readonly">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="Primeiro nome..">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input type="text" id="sobrenome" name="sobrenome" placeholder="Sobrenome..">
+                </div>
+
+                <div class="col">
+                    <label for="nacionalidade">Nacionalidade</label>
+                    <input type="text" id="nacionalidade" name="nacionalidade" placeholder="Nacionalidade..">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep" placeholder="CEP..">
+                </div>
+
+                <div class="col">
+                    <label for="estado">Estado</label>
+                    <input type="text" id="estado" name="estado" placeholder="Estado..">
+                </div>
+
+                <div class="col">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" placeholder="Cidade..">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="logradouro">Logradouro</label>
+                    <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro..">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" name="email" placeholder="E-mail..">
+                </div>
+
+                <div class="col">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" id="telefone" name="telefone" placeholder="Telefone..">
+                </div>
+            </div>
+
+            <button id="btnSalvar" type="button" class="btn btn-primary">Salvar</button>
+            <button id="btnVoltar" type="button" class="btn btn-primary">Voltar</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <span id="id_retorno_AlterarPessoa"></span>
+                <br />
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
